@@ -10,4 +10,4 @@ I hope you enjoyed the course. If you have any questions, please don't hesitate 
 
 # iot-developer-tsi-m1
 
-You can use this .NET project generate and send sample telemetry for multiple devices to Azure IoT Hub, for example to use as a data source in Azure Stream Analytics (ASA) or Time Series Insights (TSI).
+You can use this .NET project to generate and send sample telemetry for multiple devices to Azure IoT Hub, for example to use as a data source in Azure Stream Analytics (ASA) or Time Series Insights (TSI).
