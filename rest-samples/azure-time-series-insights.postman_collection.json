@@ -1,0 +1,291 @@
+{
+	"info": {
+		"_postman_id": "c6a0d260-0180-4c6b-a576-29df54802ccf",
+		"name": "Azure Time Series Insights",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Query",
+			"item": [
+				{
+					"name": "Query events",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"getEvents\": {\r\n    \"timeSeriesId\": [\r\n      \"car\"\r\n    ],\r\n    \"take\": 5,\r\n    \"filter\": {\r\n      \"tsx\": \"($event.Fahrenheit.Double >= 87) AND ($event.Speed.Double >= 40)\"\r\n    },\r\n    \"searchSpan\": {\r\n      \"from\": \"{{time-from}}\",\r\n      \"to\": \"{{time-to}}\"\r\n    },\r\n    \"projectedProperties\": [\r\n      {\r\n        \"name\": \"Speed\",\r\n        \"type\": \"Double\"\r\n      },\r\n      {\r\n        \"name\": \"Fahrenheit\",\r\n        \"type\": \"Double\"\r\n      }\r\n    ]\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{fqdn}}/timeseries/query?api-version=2020-07-31",
+							"protocol": "https",
+							"host": [
+								"{{fqdn}}"
+							],
+							"path": [
+								"timeseries",
+								"query"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2020-07-31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query series",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"getSeries\": {\r\n    \"timeSeriesId\": [\r\n      \"car\"\r\n    ],\r\n    \"take\": 5,\r\n    \"filter\": {\r\n        \"tsx\": \"$event.Fahrenheit.Double <= 87\"\r\n    },\r\n    \"searchSpan\": {\r\n      \"from\": \"{{time-from}}\",\r\n      \"to\": \"{{time-to}}\"\r\n    },\r\n    \"inlineVariables\": {\r\n      \"Fahrenheit\": {\r\n        \"kind\": \"numeric\",\r\n        \"value\": {\r\n          \"tsx\": \"$event.Fahrenheit\"\r\n        }\r\n      },\r\n      \"RoundedFahrenheit\": {\r\n        \"kind\": \"numeric\",\r\n        \"value\": {\r\n          \"tsx\": \"round($event.Fahrenheit)\"\r\n        }\r\n      }\r\n    },\r\n    \"projectedVariables\": [\r\n      \"Fahrenheit\",\r\n      \"RoundedFahrenheit\"\r\n    ]\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{fqdn}}/timeseries/query?api-version=2020-07-31",
+							"protocol": "https",
+							"host": [
+								"{{fqdn}}"
+							],
+							"path": [
+								"timeseries",
+								"query"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2020-07-31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query aggregates",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"aggregateSeries\": {\r\n    \"timeSeriesId\": [\r\n      \"car\"\r\n    ],\r\n    \"searchSpan\": {\r\n      \"from\": \"{{time-from}}\",\r\n      \"to\": \"{{time-to}}\"\r\n    },\r\n    \"interval\": \"PT20S\",\r\n    \"inlineVariables\": {\r\n      \"Count\": {\r\n        \"kind\": \"aggregate\",\r\n        \"aggregation\": {\r\n          \"tsx\": \"count()\"\r\n        }\r\n      },\r\n      \"MinimumFahrenheit\": {\r\n        \"kind\": \"numeric\",\r\n        \"value\": {\r\n          \"tsx\": \"$event.Fahrenheit\"\r\n        },\r\n        \"aggregation\": {\r\n          \"tsx\": \"min($value)\"\r\n        }\r\n      },\r\n      \"MaximumFahrenheit\": {\r\n        \"kind\": \"numeric\",\r\n        \"value\": {\r\n          \"tsx\": \"$event.Fahrenheit\"\r\n        },\r\n        \"aggregation\": {\r\n          \"tsx\": \"max($value)\"\r\n        }\r\n      }\r\n    },\r\n    \"projectedVariables\": [\r\n      \"Count\",\r\n      \"MinimumFahrenheit\",\r\n      \"MaximumFahrenheit\"\r\n    ]\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{fqdn}}/timeseries/query?api-version=2020-07-31",
+							"protocol": "https",
+							"host": [
+								"{{fqdn}}"
+							],
+							"path": [
+								"timeseries",
+								"query"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2020-07-31"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Model",
+			"item": [
+				{
+					"name": "Get hierarchies",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{fqdn}}/timeseries/hierarchies?api-version=2020-07-31",
+							"protocol": "https",
+							"host": [
+								"{{fqdn}}"
+							],
+							"path": [
+								"timeseries",
+								"hierarchies"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2020-07-31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get instances",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{fqdn}}/timeseries/instances?api-version=2020-07-31",
+							"protocol": "https",
+							"host": [
+								"{{fqdn}}"
+							],
+							"path": [
+								"timeseries",
+								"instances"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2020-07-31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get types",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "https://{{fqdn}}/timeseries/types?api-version=2020-07-31",
+							"protocol": "https",
+							"host": [
+								"{{fqdn}}"
+							],
+							"path": [
+								"timeseries",
+								"types"
+							],
+							"query": [
+								{
+									"key": "api-version",
+									"value": "2020-07-31"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get access token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"access-token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "resource",
+							"value": "https://api.timeseries.azure.com/",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client-id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client-secret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.microsoftonline.com/{{tenant-id}}/oauth2/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"{{tenant-id}}",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
