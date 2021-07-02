@@ -10,7 +10,7 @@ This folder contains a Postman collection with sample calls from one of the demo
 
    For help on using collections, see here: https://learning.postman.com/docs/getting-started/importing-and-exporting-data.
 
-3. The collection uses the following variables, so make sure to create them in Postman, and fill in the right values from your own Search Service account:
+3. The collection uses the following variables, so make sure to create them in Postman, and fill in the right values from your own Time Series Insights environment and app registration. See the demo in the course for more info:
 
    ![enter image description here](/rest-samples/readme-postman-collection-variables.png)
 
